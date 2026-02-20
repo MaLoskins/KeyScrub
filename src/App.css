@@ -1371,3 +1371,37 @@ tr:hover .changes-action-btn:hover {
     max-height: 400px;
   }
 }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+
+  /* Visually hidden but accessible to screen readers and crawlers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reset h1 inside logo so it inherits existing .logo-text styles */
+h1.logo-text {
+  font-weight: normal;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}

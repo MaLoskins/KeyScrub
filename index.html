@@ -2,11 +2,140 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KeyScrub — Clean AI Text</title>
+
+    <!-- ── Primary Meta ── -->
+    <title>KeyScrub — Clean Unicode from Text | Convert Smart Quotes, Remove Hidden Characters</title>
+    <meta name="description" content="Paste text and instantly convert Unicode characters to clean ASCII. Fix smart quotes, remove hidden zero-width characters, convert emojis, and simplify accented letters. Free, private, runs entirely in your browser." />
+    <meta name="keywords" content="unicode cleaner, ascii converter, smart quotes converter, remove hidden characters, zero-width space remover, clean text tool, unicode to ascii, fix curly quotes, remove invisible characters, plaintext converter" />
+    <meta name="author" content="MatthewHaskins" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://KeyScrub.com/" />
+
+    <!-- ── Open Graph (Facebook, LinkedIn, Discord, etc.) ── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="KeyScrub — Clean Unicode from Text" />
+    <meta property="og:description" content="Paste text and instantly strip smart quotes, hidden characters, emojis, and non-ASCII symbols. Free, private, browser-only." />
+    <meta property="og:url" content="https://KeyScrub.com/" />
+    <meta property="og:site_name" content="KeyScrub" />
+    <meta property="og:image" content="https://KeyScrub.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="KeyScrub — Paste text, get clean ASCII" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ── Twitter Card ── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="KeyScrub — Clean Unicode from Text" />
+    <meta name="twitter:description" content="Paste text and instantly strip smart quotes, hidden characters, emojis, and non-ASCII symbols." />
+    <meta name="twitter:image" content="https://KeyScrub.com/og-image.png" />
+
+    <!-- ── Favicons ── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- ── Web Manifest ── -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0f0f0e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- ── Preconnect to font CDN ── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- ── JSON-LD Structured Data ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "KeyScrub",
+      "url": "https://KeyScrub.com",
+      "description": "Paste text and instantly convert Unicode characters to clean ASCII. Fix smart quotes, remove hidden zero-width characters, convert emojis, and simplify accented letters.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Convert smart/curly quotes to straight quotes",
+        "Remove hidden zero-width Unicode characters",
+        "Convert or remove emojis",
+        "Simplify accented characters to ASCII equivalents",
+        "Preserve code blocks and URLs",
+        "Custom replacement rules",
+        "Real-time character change log",
+        "Runs entirely in-browser — no data sent to servers"
+      ],
+      "screenshot": "https://KeyScrub.com/og-image.png",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "How to use KeyScrub",
+        "text": "Paste your text in the left panel. KeyScrub instantly converts non-ASCII characters to clean ASCII equivalents. Review changes in the right panel, customize replacements, then copy the cleaned text."
+      }
+    }
+    </script>
+
+    <!-- ── FAQ Structured Data (rich results) ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does KeyScrub do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "KeyScrub converts non-ASCII Unicode characters in your text to clean ASCII equivalents. It fixes smart quotes, removes hidden zero-width characters, handles emojis, and simplifies accented letters — all instantly in your browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my text sent to a server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. KeyScrub runs entirely in your browser. Your text never leaves your device — there is no server, no API calls, and no data collection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are hidden Unicode characters?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hidden Unicode characters are invisible characters like zero-width spaces (U+200B), byte order marks (U+FEFF), and directional formatting marks that can break text processing, cause bugs in code, and create invisible formatting issues."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I customize which characters get converted?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can skip specific characters, edit any replacement, add custom find-and-replace rules, choose how emojis are handled, and toggle accent preservation — all with instant visual feedback."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
+    <!-- 
+      Noscript fallback: gives search crawlers content even if JS fails,
+      and tells users without JS what the tool does.
+    -->
+    <noscript>
+      <div style="max-width:600px;margin:2rem auto;padding:2rem;font-family:monospace;color:#e8e6df;background:#1a1a18;">
+        <h1>KeyScrub — Clean Unicode from Text</h1>
+        <p>KeyScrub is a free, browser-based tool that converts non-ASCII Unicode characters to clean ASCII. It fixes smart quotes, removes hidden zero-width characters, converts emojis, and simplifies accented letters.</p>
+        <p>JavaScript is required to use this tool. Please enable JavaScript in your browser.</p>
+      </div>
+    </noscript>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
