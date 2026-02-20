@@ -34,7 +34,7 @@ export function importFromJSON(json) {
   }
 }
 
-export function downloadJSON(content, filename = 'unieraser-settings.json') {
+export function downloadJSON(content, filename = 'KeyScrub-settings.json') {
   const blob = new Blob([content], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');

@@ -1,4 +1,4 @@
-# UniEraser
+# KeyScrub
 
 **Paste AI text. Get clean ASCII.**
 
