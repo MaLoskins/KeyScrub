@@ -1,0 +1,1373 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
+
+/* ================================================================
+   Reset & Variables
+   ================================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0f0f0e;
+  --surface: #1a1a18;
+  --surface-2: #242420;
+  --surface-3: #2c2c27;
+  --border: #2e2e2a;
+  --border-hover: #4a4a44;
+  --text: #e8e6df;
+  --text-muted: #7a7870;
+  --text-faint: #3e3d38;
+  --accent: #d4a853;
+  --accent-dim: #9a7835;
+  --accent-bg: rgba(212, 168, 83, 0.08);
+  --green: #6abf7b;
+  --green-dim: rgba(106, 191, 123, 0.12);
+  --green-border: rgba(106, 191, 123, 0.25);
+  --orange: #e09945;
+  --orange-dim: rgba(224, 153, 69, 0.12);
+  --orange-border: rgba(224, 153, 69, 0.3);
+  --red: #d45353;
+  --red-dim: rgba(212, 83, 83, 0.10);
+  --red-border: rgba(212, 83, 83, 0.25);
+  --highlight: #d4a853;
+  --highlight-bg: rgba(212, 168, 83, 0.22);
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+  --radius: 6px;
+  --radius-sm: 4px;
+
+  --sidebar-left: 250px;
+  --sidebar-right: 300px;
+}
+
+/* Kill the page-level scrollbar -- everything fits in viewport */
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* -- Global scrollbar style --
+   Applied to any scrollable element inside the app. */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-hover) transparent;
+}
+
+/* ================================================================
+   App Shell
+   ================================================================ */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 1.5rem 2rem;
+  max-width: 1800px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* -- Header -- */
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-symbol {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.logo-text {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* -- Layout: 3-column -- */
+.main {
+  flex: 1;
+  min-height: 0; /* critical for flex child to shrink */
+  overflow: hidden;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-left) 1fr var(--sidebar-right);
+  gap: 1.25rem;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ================================================================
+   Workspace (TextWorkspace -- center column)
+   ================================================================ */
+
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  gap: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* -- Panel -- */
+.panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 0;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  min-height: 40px;
+  flex-shrink: 0;
+}
+
+.panel-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.badge {
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-size: 0.62rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.panel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+  min-height: 30px;
+  flex-shrink: 0;
+}
+
+.char-count {
+  font-size: 0.68rem;
+  color: var(--text-faint);
+}
+
+.panel-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.preview-badge {
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-bg);
+  padding: 0.1rem 0.45rem;
+  border-radius: 10px;
+}
+
+.panel-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.md-preview-clickable {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  cursor: text;
+  position: relative;
+}
+
+.md-preview-clickable::after {
+  content: '✏';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+
+.md-preview-clickable:hover::after {
+  opacity: 1;
+}
+
+/* ================================================================
+   Markdown Preview
+   ================================================================ */
+
+.md-preview {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text);
+  min-height: 0;
+}
+
+.md-preview-placeholder {
+  color: var(--text-faint);
+}
+
+/* Markdown rendered content styling */
+.md-preview h1,
+.md-preview h2,
+.md-preview h3,
+.md-preview h4,
+.md-preview h5,
+.md-preview h6 {
+  font-family: var(--font-serif);
+  font-weight: normal;
+  color: var(--text);
+  margin: 1em 0 0.4em;
+  line-height: 1.3;
+}
+
+.md-preview h1 { font-size: 1.5rem; }
+.md-preview h2 { font-size: 1.25rem; }
+.md-preview h3 { font-size: 1.1rem; }
+.md-preview h4 { font-size: 1rem; }
+
+.md-preview h1:first-child,
+.md-preview h2:first-child,
+.md-preview h3:first-child {
+  margin-top: 0;
+}
+
+.md-preview p {
+  margin: 0.5em 0;
+}
+
+.md-preview ul,
+.md-preview ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.md-preview li {
+  margin: 0.2em 0;
+}
+
+.md-preview code {
+  background: var(--surface-3);
+  padding: 0.12rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.82rem;
+  color: var(--accent);
+}
+
+.md-preview pre {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin: 0.6em 0;
+  overflow-x: auto;
+}
+
+.md-preview pre code {
+  background: none;
+  padding: 0;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.md-preview blockquote {
+  border-left: 3px solid var(--accent-dim);
+  margin: 0.6em 0;
+  padding: 0.3em 0.8em;
+  color: var(--text-muted);
+}
+
+.md-preview a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.md-preview hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1em 0;
+}
+
+.md-preview strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.md-preview em {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.md-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.6em 0;
+  font-size: 0.8rem;
+}
+
+.md-preview th,
+.md-preview td {
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.6rem;
+  text-align: left;
+}
+
+.md-preview th {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.md-preview img {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+/* ================================================================
+   HighlightedTextarea
+   ================================================================ */
+
+.ht-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Backdrop: positioned behind textarea, same text styling */
+.ht-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ht-content {
+  /* Must exactly match textarea styling for alignment */
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: var(--text);
+}
+
+/* Highlight mark */
+.ht-mark {
+  background: var(--highlight-bg);
+  color: var(--highlight);
+  border-radius: 2px;
+  /* Subtle underline so highlights are visible even on short strings */
+  box-shadow: 0 1px 0 var(--highlight);
+}
+
+/* Textarea: layered on top of backdrop */
+.ht-textarea {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  padding: 1rem;
+  caret-color: var(--accent);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.ht-textarea::placeholder {
+  color: var(--text-faint);
+}
+
+/* When highlighting is active, make textarea text invisible
+   so the backdrop (with <mark> tags) shows through. */
+.ht-textarea--transparent {
+  color: transparent;
+  background: transparent;
+}
+
+/* No-wrap mode: lines don't wrap, horizontal scroll instead */
+.ht-nowrap .ht-content {
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.ht-nowrap .ht-textarea {
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.ht-nowrap .ht-backdrop {
+  overflow-x: auto;
+}
+
+/* -- Divider -- */
+.divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  gap: 0.5rem;
+  padding: 0 0.25rem;
+}
+
+.divider-line {
+  flex: 1;
+  width: 1px;
+  background: var(--border);
+}
+
+.divider-icon {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+/* ================================================================
+   Options Panel (left sidebar)
+   ================================================================ */
+
+.options-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  min-height: 0;
+}
+
+.options-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.options-heading {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+/* -- Toggle -- */
+.toggle-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  cursor: pointer;
+}
+
+.toggle-label-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.toggle-label-text {
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.toggle-hint {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.toggle-switch {
+  flex-shrink: 0;
+  width: 34px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+  padding: 0;
+  margin-top: 2px;
+}
+
+.toggle-switch--on {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.toggle-switch--on .toggle-knob {
+  transform: translateX(16px);
+  background: var(--accent);
+}
+
+/* -- Select -- */
+.select-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.4rem 0;
+}
+
+.select-label-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.select-label-text {
+  font-size: 0.78rem;
+  color: var(--text);
+}
+
+.select-hint {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.select-input {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' fill='none'%3E%3Cpath d='M1 1l3 3 3-3' stroke='%237a7870' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 1.5rem;
+}
+
+.select-input:hover {
+  border-color: var(--border-hover);
+}
+
+.select-input:focus {
+  border-color: var(--accent-dim);
+}
+
+/* -- Segmented Control -- */
+.segmented-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.4rem 0;
+}
+
+.segmented-label {
+  font-size: 0.78rem;
+  color: var(--text);
+}
+
+.segmented-control {
+  display: flex;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.segmented-btn {
+  flex: 1;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  border-right: 1px solid var(--border);
+  padding: 0.35rem 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  text-transform: capitalize;
+}
+
+.segmented-btn:last-child {
+  border-right: none;
+}
+
+.segmented-btn:hover:not(.segmented-btn--active) {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.segmented-btn--active {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+/* ================================================================
+   Accordion
+   ================================================================ */
+
+.accordion {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.accordion + .accordion {
+  margin-top: 0.25rem;
+}
+
+.accordion-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.15s;
+}
+
+.accordion-trigger:hover {
+  color: var(--text);
+}
+
+.accordion-arrow {
+  font-size: 0.65rem;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 0.8rem;
+}
+
+.accordion-title {
+  flex: 1;
+}
+
+.accordion-badge {
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-size: 0.6rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 10px;
+}
+
+.accordion-body {
+  padding: 0.5rem 0.65rem 0.65rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ================================================================
+   Custom Rules (inside OptionsPanel accordion)
+   ================================================================ */
+
+.custom-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.custom-rule-add {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.custom-rule-input {
+  flex: 1;
+  min-width: 50px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.custom-rule-input:focus {
+  border-color: var(--accent-dim);
+}
+
+.custom-rule-input::placeholder {
+  color: var(--text-faint);
+}
+
+.custom-rule-arrow {
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.custom-rule-hint {
+  font-size: 0.65rem;
+  color: var(--text-faint);
+  line-height: 1.4;
+}
+
+.custom-rule-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.custom-rule-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.4rem;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+}
+
+.custom-rule-find {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.custom-rule-replace {
+  color: var(--green);
+  flex: 1;
+}
+
+.settings-io {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ================================================================
+   Changes Panel (right sidebar)
+   ================================================================ */
+
+.changes-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.changes-sidebar-heading {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.changes-empty {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  line-height: 1.5;
+  padding: 1rem 0;
+}
+
+/* -- Summary strip -- */
+.changes-summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  background: var(--green-dim);
+  border: 1px solid var(--green-border);
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+
+.changes-summary-icon {
+  color: var(--green);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.changes-summary-text {
+  font-size: 0.72rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+/* -- Scrollable table -- */
+.changes-table-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  min-height: 0;
+}
+
+.changes-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.73rem;
+}
+
+.changes-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.changes-table th {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.changes-th-count {
+  text-align: center;
+  width: 36px;
+}
+
+.changes-table td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.changes-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Row hover -- active highlight state tied to text highlighting */
+.changes-table tbody tr:hover {
+  background: var(--highlight-bg);
+}
+
+/* -- Found column -- */
+.changes-td-found {
+  max-width: 90px;
+}
+
+.changes-found-char {
+  color: var(--text);
+  background: var(--surface-3);
+  padding: 0.08rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.73rem;
+  display: inline-block;
+  word-break: break-all;
+}
+
+.changes-found-label {
+  display: block;
+  font-size: 0.6rem;
+  color: var(--text-faint);
+  margin-top: 0.1rem;
+  line-height: 1.3;
+}
+
+/* -- Replace column (editable) -- */
+.changes-td-replace {
+  position: relative;
+  max-width: 60px;
+}
+
+.changes-cell-editable {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 0.08rem 0.25rem;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-align: left;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.changes-cell-editable:hover {
+  border-color: var(--border-hover);
+  background: var(--surface-3);
+}
+
+.changes-cell-edit-icon {
+  font-size: 0.6rem;
+  color: var(--text-faint);
+  opacity: 0;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+
+.changes-cell-editable:hover .changes-cell-edit-icon {
+  opacity: 1;
+}
+
+/* Default replacement: green */
+.changes-replace--default code {
+  color: var(--green);
+  background: var(--green-dim);
+  padding: 0.08rem 0.25rem;
+  border-radius: 3px;
+}
+
+/* Modified replacement: orange */
+.changes-replace--modified code,
+.changes-cell--modified code {
+  color: var(--orange);
+  background: var(--orange-dim);
+  padding: 0.08rem 0.25rem;
+  border-radius: 3px;
+}
+
+.changes-row--modified {
+  background: var(--orange-dim);
+}
+
+.changes-row--modified:hover {
+  background: rgba(224, 153, 69, 0.08) !important;
+}
+
+/* -- Skipped row (red) -- */
+.changes-row--skipped {
+  background: var(--red-dim);
+}
+
+.changes-row--skipped:hover {
+  background: rgba(212, 83, 83, 0.08) !important;
+}
+
+.changes-row--skipped .changes-found-char {
+  opacity: 0.6;
+}
+
+.changes-replace--skipped {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.08rem 0.25rem;
+}
+
+.changes-replace--skipped code {
+  color: var(--text-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--red);
+  font-size: 0.73rem;
+}
+
+.changes-skipped-tag {
+  font-size: 0.55rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--red);
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+  padding: 0.05rem 0.3rem;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* Inline edit input */
+.changes-edit-input {
+  width: 100%;
+  background: var(--surface-3);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 0.15rem 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  outline: none;
+}
+
+/* Revert button */
+.changes-revert-btn {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--orange);
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0.1rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.changes-td-replace:hover .changes-revert-btn {
+  opacity: 1;
+}
+
+.changes-revert-btn:hover {
+  color: var(--text);
+}
+
+/* Count column */
+.changes-td-count {
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 0.7rem;
+  width: 20px;
+}
+
+/* Actions column (skip/restore) */
+.changes-th-actions {
+  width: 18px;
+}
+
+.changes-td-actions {
+  text-align: center;
+  width: 18px;
+  padding: 0.2rem !important;
+}
+
+.changes-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.72rem;
+  line-height: 1;
+  padding: 0.15rem 0.2rem;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+}
+
+/* Show on row hover */
+tr:hover .changes-action-btn {
+  opacity: 0.6;
+}
+
+tr:hover .changes-action-btn:hover {
+  opacity: 1;
+}
+
+.changes-action-btn--skip {
+  color: var(--red);
+}
+
+.changes-action-btn--skip:hover {
+  background: var(--red-dim);
+}
+
+/* Always show restore on skipped rows */
+.changes-row--skipped .changes-action-btn--restore {
+  opacity: 0.7;
+  color: var(--green);
+}
+
+.changes-row--skipped .changes-action-btn--restore:hover {
+  opacity: 1;
+  background: var(--green-dim);
+}
+
+/* -- Legend -- */
+.changes-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.35rem 0;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.changes-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.65rem;
+  color: var(--text-faint);
+}
+
+.changes-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.changes-legend-dot--default {
+  background: var(--green);
+}
+
+.changes-legend-dot--modified {
+  background: var(--orange);
+}
+
+.changes-legend-dot--skipped {
+  background: var(--red);
+}
+
+.changes-legend-hint {
+  font-size: 0.6rem;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+/* ================================================================
+   Buttons
+   ================================================================ */
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.btn-primary:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.btn-ghost:hover {
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+.btn-ghost:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.btn-small {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.68rem;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.2rem;
+  transition: color 0.15s;
+}
+
+.btn-icon:hover {
+  color: var(--red);
+}
+
+/* ================================================================
+   Responsive
+   ================================================================ */
+
+@media (max-width: 1200px) {
+  :root {
+    --sidebar-left: 220px;
+    --sidebar-right: 260px;
+  }
+}
+
+@media (max-width: 1000px) {
+  html, body, #root {
+    overflow: auto;
+    height: auto;
+  }
+
+  .app {
+    padding: 1rem;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .main {
+    overflow: visible;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    height: auto;
+    gap: 1rem;
+    overflow: visible;
+  }
+
+  .options-panel {
+    padding-right: 0;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: 300px auto 300px;
+    overflow: visible;
+  }
+
+  .divider {
+    flex-direction: row;
+    width: auto;
+    height: 36px;
+    padding: 0;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    width: auto;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .changes-sidebar {
+    max-height: 400px;
+  }
+}
