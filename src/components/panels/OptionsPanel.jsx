@@ -172,7 +172,7 @@ export default function OptionsPanel({
               </button>
             </div>
             <p className="custom-rule-hint">
-              Examples: — → --, ← → &lt;-, © → (c)
+              Examples: — to --, ← to &lt;-, © to (c)
             </p>
 
             {customRules.length > 0 && (
